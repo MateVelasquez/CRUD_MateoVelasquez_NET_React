@@ -14,9 +14,6 @@ module.exports = function(app) {
     proxyTimeout: 10000,
     target: target,
     secure: false,
-    headers: {
-      Connection: 'Keep-Alive'
-    }
   });
 
   app.use(appProxy);

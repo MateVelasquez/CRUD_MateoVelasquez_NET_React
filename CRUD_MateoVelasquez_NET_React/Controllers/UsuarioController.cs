@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CRUD_MateoVelasquez_NET_React.Models;
 using Microsoft.EntityFrameworkCore;
+using CRUD_MateoVelasquez_NET_React.Models;
+
 
 namespace CRUD_MateoVelasquez_NET_React.Controllers
 {
