@@ -1,4 +1,4 @@
-﻿import { useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { Modal, ModalBody, ModalHeader, Form, FormGroup, Label, Input, Button, ModalFooter } from "reactstrap"
 
 const modeloUsuario = {
@@ -12,7 +12,7 @@ const modeloUsuario = {
     codigoPostal: "",
 }
 
-const ModalUsuario = ({mostrarModal,setMostrarModal,guardarUsuario}) => {
+const ModalUsuario = ({mostrarModal,setMostrarModal,guardarUsuario,editar,setEditar,editarUsuario}) => {
 
     const [usuario, setUsuario] = useState(modeloUsuario);
 
@@ -31,14 +31,31 @@ const ModalUsuario = ({mostrarModal,setMostrarModal,guardarUsuario}) => {
 
         if (usuario.id == 0) {
             guardarUsuario(usuario)
+        } else {
+            editarUsuario(usuario)
         }
+
+        setUsuario(modeloUsuario)
+    }
+
+    useEffect(() => {
+        if (editar != null){
+            setUsuario(editar)
+        }else {
+            setUsuario(modeloUsuario)
+        }
+    }, [editar])
+
+    const cerrarModal = () => {
+        setMostrarModal(!mostrarModal)
+        setEditar(null)
     }
 
     return (
 
         <Modal isOpen={mostrarModal}>
             <ModalHeader>
-                Nuevo Usuario
+                {usuario.id == 0 ? "Nuevo Usuario" : "Editar Usuario"}
             </ModalHeader>
             <ModalBody>
                 <Form>
@@ -75,7 +92,7 @@ const ModalUsuario = ({mostrarModal,setMostrarModal,guardarUsuario}) => {
 
             <ModalFooter>
                 <Button color="primary" size="sm" onClick={enviarDatos}>Guardar</Button>
-                <Button color="danger" size="sm" onClick={() => setMostrarModal(!mostrarModal)} >Cerrar</Button>
+                <Button color="danger" size="sm" onClick={cerrarModal} >Cerrar</Button>
             </ModalFooter>
         </Modal>
     )

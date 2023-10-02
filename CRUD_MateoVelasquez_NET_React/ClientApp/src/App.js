@@ -8,6 +8,7 @@ const App = () => {
 
     const [usuarios, setUsuarios] = useState([])
     const [mostrarModal, setMostrarModal] = useState(false);
+    const [editar,setEditar] = useState(null)
 
     const mostrarUsuarios = async () => {
         const response = await fetch("api/usuario/Lista");
@@ -39,6 +40,38 @@ const App = () => {
         }
     }
 
+    const editarUsuario = async (usuarios) => {
+        const response = await fetch("api/usuario/Editar", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(usuarios)
+        })
+
+        if (response.ok) {
+            setMostrarModal(!mostrarModal);
+            mostrarUsuarios();
+        }
+    }
+
+    const eliminarUsuario = async (id) => {
+
+        var respuesta = window.confirm("Desea eliminar el usuario?")
+
+        if (!respuesta) {
+            return;
+        }
+
+        const response = await fetch("api/usuario/Eliminar/" + id, {
+            method: 'DELETE',
+        })
+
+        if (response.ok) {
+            mostrarUsuarios();
+        }
+    }
+
     return (
         <Container>
             <Row classname="mt-5">
@@ -51,16 +84,28 @@ const App = () => {
                         <CardBody>
                             <Button size="sm" color="success" onClick={() => setMostrarModal(!mostrarModal) } >Nuevo Usuario</Button>
                             <hr></hr>
-                            <TablaUsuario data ={usuarios}/>
+                            <TablaUsuario
+                                data={usuarios}
+                                setEditar={setEditar}
+                                mostrarModal={mostrarModal}
+                                setMostrarModal={setMostrarModal}
+                                eliminarUsuario={eliminarUsuario}
+                            />
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
 
 
-            <ModalUsuario mostrarModal={mostrarModal}
+            <ModalUsuario
+                mostrarModal={mostrarModal}
                 setMostrarModal={setMostrarModal}
-                guardarUsuario={guardarUsuario} />
+                guardarUsuario={guardarUsuario}
+                editar={editar}
+                setEditar={setEditar}
+                editarUsuario={editarUsuario}
+            />
+                
         </Container>
     )
 }

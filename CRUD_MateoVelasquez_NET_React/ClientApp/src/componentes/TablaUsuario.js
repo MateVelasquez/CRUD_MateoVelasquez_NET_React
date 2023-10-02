@@ -1,6 +1,11 @@
 ﻿import { Button, Table } from "reactstrap"
 
-const TablaUsuario = ({ data }) => {
+const TablaUsuario = ({ data, setEditar, mostrarModal, setMostrarModal, eliminarUsuario }) => {
+
+    const enviarDatos = (usuarios) => {
+        setEditar(usuarios)
+        setMostrarModal(!mostrarModal)
+    }
 
     return (
 
@@ -34,8 +39,12 @@ const TablaUsuario = ({ data }) => {
                                     <td>{item.direccion}</td>
                                     <td>{item.codigoPostal}</td>
                                     <td>
-                                        <Button color="primary" size="sm" classname="me-2">Editar</Button>
-                                        <Button color="danger" size="sm">Eliminar</Button>
+                                        <Button color="primary" size="sm" classname="me-2"
+                                            onClick={()=> enviarDatos(item)}
+                                        >Editar</Button>
+                                        <Button color="danger" size="sm"
+                                            onClick={() => eliminarUsuario(item.id)}
+                                        >Eliminar</Button>
                                     </td>
                                 </tr>
                             ))

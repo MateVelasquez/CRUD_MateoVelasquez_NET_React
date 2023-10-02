@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CRUD_MateoVelasquez_NET_React.Models;
+using System.Diagnostics.Contracts;
 
 
 namespace CRUD_MateoVelasquez_NET_React.Controllers
@@ -48,8 +49,9 @@ namespace CRUD_MateoVelasquez_NET_React.Controllers
 
         [HttpDelete]
         [Route("Eliminar/{id:int}")]
-        public async Task<IActionResult> Eliminar (int id)
+        public async Task<IActionResult> Eliminar(int id)
         {
+
             Usuario usuario = _dbcontext.Usuarios.Find(id);
 
             _dbcontext.Usuarios.Remove(usuario);
